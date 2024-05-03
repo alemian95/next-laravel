@@ -1,4 +1,5 @@
 import axios from "@/lib/axios"
+import csrf from "@/lib/csrf"
 import { User } from "@/models/User"
 import { AxiosError } from "axios"
 import { useParams, useRouter } from "next/navigation"
@@ -9,8 +10,13 @@ type useAuthProps = {
     middleware? : "guest" | "auth",
     redirectIfAuthenticated? : string
 }
-type setErrorsType = Dispatch<SetStateAction<{}[]>>
+type setErrorsType = Dispatch<SetStateAction<errorsType>>
 type setStatusType = Dispatch<SetStateAction<string | null>>
+
+export type errorsType = {
+    email? : string,
+    password? : string
+}
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps = {}) => {
 
@@ -28,12 +34,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
 
     const { data: user, error, mutate } = useSWR("/api/user", fetcher)
 
-    const csrf = () => axios.get("/sanctum/csrf-cookie")
-
     const register = async ({ setErrors, ...props } : { setErrors : setErrorsType }) => {
         await csrf()
 
-        setErrors([])
+        setErrors({})
 
         axios.post("/register", props)
             .then(() => mutate())
@@ -53,7 +57,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
     ) => {
         await csrf()
 
-        setErrors([])
+        setErrors({})
         setStatus(null)
 
         axios
@@ -69,7 +73,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
     const forgotPassword = async ({ setErrors, setStatus, email } : { setErrors : setErrorsType, setStatus : setStatusType, email : string }) => {
         await csrf()
 
-        setErrors([])
+        setErrors({})
         setStatus(null)
 
         axios
@@ -85,7 +89,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
     const resetPassword = async ({ setErrors, setStatus, ...props } : { setErrors: setErrorsType, setStatus: setStatusType }) => {
         await csrf()
 
-        setErrors([])
+        setErrors({})
         setStatus(null)
 
         axios
