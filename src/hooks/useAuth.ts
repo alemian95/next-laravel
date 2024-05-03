@@ -14,8 +14,10 @@ type setErrorsType = Dispatch<SetStateAction<errorsType>>
 type setStatusType = Dispatch<SetStateAction<string | null>>
 
 export type errorsType = {
+    name? : string,
     email? : string,
-    password? : string
+    password? : string,
+    passwordConfirmation?: string,
 }
 
 export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps = {}) => {
@@ -34,12 +36,18 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
 
     const { data: user, error, mutate } = useSWR("/api/user", fetcher)
 
-    const register = async ({ setErrors, ...props } : { setErrors : setErrorsType }) => {
+    const register = async (
+        name : string,
+        email : string,
+        password : string,
+        passwordConfirmation : string,
+        setErrors : setErrorsType
+    ) => {
         await csrf()
 
         setErrors({})
 
-        axios.post("/register", props)
+        axios.post("/register", { name, email, password, password_confirmation: passwordConfirmation })
             .then(() => mutate())
             .catch((error) => {
                 if (error.response?.status !== 422) throw error
