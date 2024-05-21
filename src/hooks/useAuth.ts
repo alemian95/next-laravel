@@ -1,4 +1,4 @@
-import axios from "@/lib/axios"
+import backend from "@/lib/axios"
 import csrf from "@/lib/csrf"
 import { User } from "@/models/User"
 import { AxiosError } from "axios"
@@ -26,7 +26,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
     const params = useParams()
 
     const fetcher : Fetcher<User, string> = () => {
-        return axios.get("/api/user")
+        return backend.get("/api/user")
             .then(res => res.data)
             .catch((error: AxiosError) => {
                 if (error.response?.status !== 409) throw error
@@ -47,7 +47,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
 
         setErrors({})
 
-        axios.post("/register", { name, email, password, password_confirmation: passwordConfirmation })
+        backend.post("/register", { name, email, password, password_confirmation: passwordConfirmation })
             .then(() => mutate())
             .catch((error) => {
                 if (error.response?.status !== 422) throw error
@@ -68,7 +68,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
         setErrors({})
         setStatus(null)
 
-        axios
+        backend
             .post('/login', { email, password, remember })
             .then(() => mutate())
             .catch(error => {
@@ -84,7 +84,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
         setErrors({})
         setStatus(null)
 
-        axios
+        backend
             .post('/forgot-password', { email })
             .then(response => setStatus(response.data.status))
             .catch(error => {
@@ -100,7 +100,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
         setErrors({})
         setStatus(null)
 
-        axios
+        backend
             .post('/reset-password', { token: params.token, ...props })
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
@@ -113,14 +113,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
     }
 
     const resendEmailVerification = ({ setStatus } : { setStatus : setStatusType }) => {
-        axios
+        backend
             .post('/email/verification-notification')
             .then(response => setStatus(response.data.status))
     }
 
     const logout = async () => {
         if (!error) {
-            await axios.post('/logout').then(() => mutate())
+            await backend.post('/logout').then(() => mutate())
         }
 
         window.location.pathname = '/login'

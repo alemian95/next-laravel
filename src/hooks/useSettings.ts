@@ -1,15 +1,11 @@
-import axios from "@/lib/axios"
+import backend from "@/lib/axios"
 import { AxiosError } from "axios"
-// import { useParams, useRouter } from "next/navigation"
 import useSWR, { Fetcher } from "swr"
 
 export const useSettings = () => {
 
-    // const router = useRouter()
-    // const params = useParams()
-
     const fetcher : Fetcher<any, string> = () => {
-        return axios.get("/api/settings")
+        return backend.get("/api/settings")
             .then(res => res.data)
             .catch((error: AxiosError) => {
                 throw error
