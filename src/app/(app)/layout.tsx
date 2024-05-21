@@ -2,13 +2,15 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { useSettings } from "@/hooks/useSettings";
+import { useTranslations } from "@/hooks/useTranslations";
 import { PropsWithChildren } from "react";
 
 export default function AppLayout (props : PropsWithChildren) {
     const { user, logout } = useAuth({ middleware: "auth" })
     const { settings } = useSettings()
+    const { __ } = useTranslations()
 
-    if (! user || ! settings) {
+    if (! user || ! settings || ! __) {
         return "Loading ..."
     }
 
