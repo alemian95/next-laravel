@@ -94,14 +94,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated } : useAuthProps =
             })
     }
 
-    const resetPassword = async ({ setErrors, setStatus, ...props } : { setErrors: setErrorsType, setStatus: setStatusType }) => {
+    const resetPassword = async ({ email, password, password_confirmation, setErrors, setStatus, ...props } : { email : string, password : string, password_confirmation : string,setErrors: setErrorsType, setStatus: setStatusType }) => {
         await csrf()
 
         setErrors({})
         setStatus(null)
 
         backend
-            .post('/reset-password', { token: params.token, ...props })
+            .post('/reset-password', { token: params.token, email, password, password_confirmation })
             .then(response =>
                 router.push('/login?reset=' + btoa(response.data.status)),
             )

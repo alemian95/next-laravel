@@ -8,9 +8,10 @@ import { PropsWithChildren } from "react";
 export default function AppLayout (props : PropsWithChildren) {
     const { user, logout } = useAuth({ middleware: "auth" })
     const { settings } = useSettings()
-    const { __ } = useTranslations()
+    // const { __ } = useTranslations()
 
-    if (! user || ! settings || ! __) {
+    // if (! user || ! settings || ! __) {
+    if (! user || ! settings) {
         return "Loading ..."
     }
 
