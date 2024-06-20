@@ -1,6 +1,7 @@
 'use client'
 
 import { errorsType, useAuth } from "@/hooks/useAuth"
+import { useTranslations } from "next-intl"
 import { FormEvent, useState } from "react"
 
 export default function Register() {
@@ -9,6 +10,8 @@ export default function Register() {
         middleware: "guest",
         redirectIfAuthenticated: "/dashboard"
     })
+
+    const t = useTranslations()
 
     const [ errors, setErrors ] = useState<errorsType>({})
     const [ pending, setPending ] = useState<boolean>(false)
@@ -29,7 +32,7 @@ export default function Register() {
         <>
             <form onSubmit={submit} className="flex flex-col gap-4 items-center">
                 { errors.name && <span className="text-red-600">{ errors.name }</span> }
-                <input type="text" name="name" id="name" className="border rounded-md p-2 w-full" onChange={event => setName(event.target.value)} />
+                <input placeholder={t('form.register.name')} type="text" name="name" id="name" className="border rounded-md p-2 w-full" onChange={event => setName(event.target.value)} />
                 { errors.email && <span className="text-red-600">{ errors.email }</span> }
                 <input type="email" name="email" id="email" className="border rounded-md p-2 w-full" onChange={event => setEmail(event.target.value)} />
                 { errors.password && <span className="text-red-600">{ errors.password }</span> }

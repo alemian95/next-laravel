@@ -1,0 +1,20 @@
+{
+    "form": {
+        "register": {
+            "name": "Name",
+            "email": "Email",
+            "password": "Password",
+            "password_confirmation": "Confirm password",
+            "submit": "Register",
+            "already_registered": "Already registered?"
+        },
+        "login": {
+            "email": "Email",
+            "password": "Password",
+            "submit": "Login",
+            "remember": "Remember me",
+            "forgot_password": "Forgot your password?",
+            "not_registered": "Not registered?"
+        }
+    }
+}

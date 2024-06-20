@@ -1,0 +1,20 @@
+{
+    "form": {
+        "register": {
+            "name": "Nome",
+            "email": "Email",
+            "password": "Password",
+            "password_confirmation": "Conferma password",
+            "submit": "Registrati",
+            "already_registered": "Sei già registrato?"
+        },
+        "login": {
+            "email": "Email",
+            "password": "Password",
+            "submit": "Login",
+            "remember": "Ricorda questo dispositivo",
+            "forgot_password": "Dimenticato la password?",
+            "not_registered": "Non hai un account?"
+        }
+    }
+}
