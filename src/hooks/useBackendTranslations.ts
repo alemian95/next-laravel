@@ -2,7 +2,7 @@ import backend from "@/lib/axios";
 import { AxiosError } from "axios";
 import useSWR, { Fetcher } from "swr";
 
-export const useTranslations = () => {
+export const useBackendTranslations = () => {
     
     const fetcher : Fetcher<any, string> = () => {
         return backend.get("/api/settings/translations")
