@@ -2,11 +2,16 @@ import { getRequestConfig } from "next-intl/server";
 import { cookies, headers } from "next/headers";
 import acceptLanguage from 'accept-language'
 
-export default getRequestConfig(async () => {
+export const fallbackLng = 'en'
+export const languages = [fallbackLng, 'it']
+export const cookieName = 'i18next'
+
+export const getLocaleFromBrowserOrCookie = () => {
 
   acceptLanguage.languages(languages)
-
+  
   let lang
+  
   if (cookies().has(cookieName)) {
     lang = acceptLanguage.get(cookies().get(cookieName)?.value)
   }
@@ -16,8 +21,15 @@ export default getRequestConfig(async () => {
   if (! lang) {
     lang = fallbackLng
   }
+  
+  return lang
+}
 
-  const locale = lang;
+export default getRequestConfig(async () => {
+
+  acceptLanguage.languages(languages)
+
+  const locale = getLocaleFromBrowserOrCookie();
 
   return {
     locale,
@@ -27,8 +39,3 @@ export default getRequestConfig(async () => {
     }
   };
 });
-
-
-export const fallbackLng = 'en'
-export const languages = [fallbackLng, 'it']
-export const cookieName = 'i18next'
