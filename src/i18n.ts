@@ -34,8 +34,8 @@ export default getRequestConfig(async () => {
   return {
     locale,
     messages: {
-      ...(await import(`../locales/${locale}/common.json`)).default,
-      ...(await import(`../locales/${locale}/forms.json`)).default,
+      ...(await import(`./locales/${locale}/common.json`)).default,
+      ...(await import(`./locales/${locale}/forms.json`)).default,
     }
   };
 });
