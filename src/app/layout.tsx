@@ -4,7 +4,9 @@ import "@/resources/sass/main.scss"
 import { getLocale, getMessages } from "next-intl/server"
 import { NextIntlClientProvider } from "next-intl"
 
-const font = Inter({ subsets: ["latin"] })
+import { cn } from "@/lib/utils"
+
+const font = Inter({ subsets: ["latin"], variable: "--font-sans" })
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +20,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
-      <body className={font.className}>
+    <html lang={locale} suppressHydrationWarning>
+      <body className={ cn("min-h-screen bg-background font-sans antialiased", font.variable) }>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>

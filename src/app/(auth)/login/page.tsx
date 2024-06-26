@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/ui/button"
 import { errorsType, useAuth } from "@/hooks/useAuth"
 import { useTranslations } from "next-intl"
 import { FormEvent, useState } from "react"
@@ -43,7 +44,7 @@ export default function Login() {
                     <input type="checkbox" name="remember" id="remember" className="border rounded-md w-fit" onChange={event => setRemember(event.target.checked)}/>
                 </div>
                 
-                <button type="submit" className="border bg-black text-white uppercase w-fit px-3 py-1 rounded-md" >{ t('form.login.submit') }</button>
+                <Button animation="3d">{ t('form.login.submit') }</Button>
             </form>
 
             { pending && "Loading..." }
