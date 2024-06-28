@@ -1,7 +1,8 @@
 'use client'
 
+import { Button } from "@/components/ui/button"
 import { useAuth } from "@/hooks/useAuth"
-import { useTranslations } from "@/hooks/useTranslations"
+import { useTranslations } from "next-intl"
 import { useState } from "react"
 
 export default function VerifyEmail() {
@@ -11,22 +12,22 @@ export default function VerifyEmail() {
         redirectIfAuthenticated: '/dashboard',
     })
 
-    const [status, setStatus] = useState<string|null>(null)
+    const t = useTranslations()
 
-    const { __ } = useTranslations()
+    const [status, setStatus] = useState<string|null>(null)
 
     return (
         <>
-            <div>{ __('passwords.not_verified') }</div>
+            <div>{ t('passwords.not_verified') }</div>
             
             { status === 'verification-link-sent' && (
-                <div>{ __('passwords.sent') }</div>
+                <div>{ t('passwords.sent') }</div>
             )}
 
             <div>
-                <button onClick={() => resendEmailVerification({ setStatus })}>{ __('passwords.resend_verification_email') }</button>
+                <Button onClick={() => resendEmailVerification({ setStatus })}>{ t('passwords.resend_verification_email') }</Button>
 
-                <button onClick={logout}>{ __('auth.logout') }</button>
+                <Button onClick={logout}>{ t('auth.logout') }</Button>
             </div>
         </>
     )

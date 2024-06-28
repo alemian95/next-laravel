@@ -10,8 +10,22 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { isEmpty } from "@/lib/utils"
+import Link from "next/link"
+
 
 export default function Login() {
+
+    const { login } = useAuth({
+        middleware: "guest",
+        redirectIfAuthenticated: "/dashboard"
+    })
+
+    const t = useTranslations()
+
+    const [ errors, setErrors ] = useState<errorsType>({})
+    const [ _status, setStatus ] = useState<string | null>(null)
+    const [ pending, setPending ] = useState<boolean>(false)
 
     const formSchema = z.object({
         email: z.string().email(),
@@ -28,21 +42,10 @@ export default function Login() {
         }
     })
 
-    const { login } = useAuth({
-        middleware: "guest",
-        redirectIfAuthenticated: "/dashboard"
-    })
-
-    const t = useTranslations()
-
-    const [ errors, setErrors ] = useState<errorsType>({})
-    const [ _status, setStatus ] = useState<string | null>(null)
-    const [ pending, setPending ] = useState<boolean>(false)
-
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setPending(true)
         await login(values.email, values.password, values.remember, setErrors, setStatus)
-        if (errors?.email || errors?.password) {
+        if (! isEmpty(errors)) {
             values.password = ""
         }
         setPending(false)
@@ -86,6 +89,11 @@ export default function Login() {
                     <Button>{ t('form.login.submit') }</Button>
                 </form>
             </Form>
+
+            <div className="flex justify-between">
+                <Link href="/register">{ t('form.login.not_registered') }</Link>
+                <Link href="/forgot-password">{ t('form.login.forgot_password') }</Link>
+            </div>
 
             { pending && "Loading..." }
         </>
