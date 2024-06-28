@@ -27,13 +27,14 @@ const buttonVariants = cva(
         icon: "h-10 w-10",
       },
       animation: {
-        none: "",
-        "3d": "transition-all shadow-md active:translate-y-1 active:scale-95 active:shadow-sm",
+        "none": "",
+        "press": "transition-all shadow-md active:translate-y-1 active:scale-95 active:shadow-sm",
       }
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      animation: "none",
     },
   }
 )
