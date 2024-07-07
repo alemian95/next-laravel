@@ -23,6 +23,7 @@ export const getLocaleFromBrowserOrCookie = () => {
   }
   
   return lang
+  // return fallbackLng
 }
 
 export default getRequestConfig(async () => {
